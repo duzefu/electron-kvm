@@ -1,8 +1,25 @@
-const { app, BrowserWindow, globalShortcut, dialog } = require('electron')
+const { app, BrowserWindow, globalShortcut, dialog, ipcMain } = require('electron')
 const path = require('path')
 
-function createWindow () {
-  const mainWindow = new BrowserWindow({
+let mainWindow = null;
+
+function createLoginWindow() {
+  const loginWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+
+  loginWindow.setMenu(null)
+  loginWindow.loadFile('login.html')
+}
+
+function createMainWindow(ip) {
+  mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
     webPreferences: {
@@ -26,9 +43,7 @@ function createWindow () {
     callback(0);
   });
 
-  mainWindow.loadURL('https://192.168.113.131/kvm/')
-
-//   mainWindow.webContents.openDevTools()
+  mainWindow.loadURL(`https://${ip}/kvm/`)
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
     console.log('页面加载失败:', errorCode, errorDescription);
@@ -43,13 +58,24 @@ app.commandLine.appendSwitch('ignore-certificate-errors')
 app.commandLine.appendSwitch('allow-insecure-localhost')
 
 app.whenReady().then(() => {
-  createWindow()
+  createLoginWindow()
 
   app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) createLoginWindow()
   })
 })
 
 app.on('window-all-closed', function () {
   process.exit(0);
+})
+
+// 处理IP输入
+ipcMain.on('connect-to-ip', (event, ip) => {
+  createMainWindow(ip);
+  // 关闭登录窗口
+  BrowserWindow.getAllWindows().forEach(window => {
+    if (window !== mainWindow) {
+      window.close();
+    }
+  });
 }) 
