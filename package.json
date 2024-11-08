@@ -1,0 +1,28 @@
+{
+    "name": "kvm-electron-app",
+    "version": "1.0.0",
+    "description": "KVM Viewer Electron App",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "build": "electron-builder --win",
+        "build:all": "electron-builder -mwl"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "electron": "^33.2.0",
+        "electron-builder": "^24.9.1"
+    },
+    "build": {
+        "appId": "com.kvm.viewer",
+        "productName": "KVM Viewer",
+        "win": {
+            "target": ["nsis"],
+            "icon": "build/icon.ico"
+        },
+        "linux": {
+            "target": ["AppImage"]
+        }
+    }
+}
