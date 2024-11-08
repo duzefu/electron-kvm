@@ -56,6 +56,9 @@ function createMainWindow(ip) {
 
 app.commandLine.appendSwitch('ignore-certificate-errors')
 app.commandLine.appendSwitch('allow-insecure-localhost')
+// for webrtc reduce latency
+app.commandLine.appendSwitch('disable-gpu-vsync')
+app.commandLine.appendSwitch('enable-zero-copy')
 
 app.whenReady().then(() => {
   createLoginWindow()
