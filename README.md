@@ -1,3 +1,7 @@
+# electron-kvm
+尝试解决浏览器本身各种启动参数导致pikvm延迟表现不佳的软件,electron套壳软件
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # 使用方法
 ## 1.安装npm,wine
 ```
