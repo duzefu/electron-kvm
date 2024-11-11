@@ -26,7 +26,9 @@ function createMainWindow(ip) {
       nodeIntegration: true,
       contextIsolation: false,
       webSecurity: false,
-    }
+    },
+    fullscreenable: true,
+    fullscreen: false
   })
 
   mainWindow.setMenu(null)
@@ -41,6 +43,22 @@ function createMainWindow(ip) {
 
   mainWindow.webContents.session.setCertificateVerifyProc((request, callback) => {
     callback(0);
+  });
+
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow.webContents.executeJavaScript(`
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          document.webkitExitFullscreen();
+        }
+      });
+    `);
+  });
+
+  globalShortcut.register('Escape', () => {
+    if (mainWindow && mainWindow.isFullScreen()) {
+      mainWindow.setFullScreen(false);
+    }
   });
 
   mainWindow.loadURL(`https://${ip}/kvm/`)
@@ -81,4 +99,8 @@ ipcMain.on('connect-to-ip', (event, ip) => {
       window.close();
     }
   });
-}) 
+})
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
+});
