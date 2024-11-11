@@ -39,13 +39,19 @@
 <body>
     <div class="container">
         <h3>请输入服务器IP地址</h3>
-        <input type="text" id="ipInput" placeholder="例如: 192.168.1.1">
+        <input type="text" id="ipInput" placeholder="例如: 192.168.1.1" onkeypress="handleKeyPress(event)">
         <button onclick="connect()">连接</button>
     </div>
     <script>
         function connect() {
             const ip = document.getElementById('ipInput').value;
             window.electronAPI.connectToIP(ip);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                connect();
+            }
         }
 
         // 监听保存的 IP 并填充到输入框
