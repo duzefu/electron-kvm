@@ -13,6 +13,7 @@ apt install npm wine
 ```
 npm install electron --save-dev
 npm install electron-builder --save-dev
+npm install electron-store@8.1.0
 ```
 
 ## 3.编译EXE

@@ -45,12 +45,13 @@
     <script>
         function connect() {
             const ip = document.getElementById('ipInput').value;
-            if (ip) {
-                window.electron.connect(ip);
-            } else {
-                alert('请输入IP地址');
-            }
+            window.electronAPI.connectToIP(ip);
         }
+
+        // 监听保存的 IP 并填充到输入框
+        window.electronAPI.onLoadSavedIP((event, savedIp) => {
+            document.getElementById('ipInput').value = savedIp;
+        });
     </script>
 </body>
 </html> 

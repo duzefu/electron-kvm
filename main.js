@@ -1,6 +1,9 @@
 const { app, BrowserWindow, globalShortcut, dialog, ipcMain } = require('electron')
 const path = require('path')
+const Store = require('electron-store');
 
+// 创建 store 实例
+const store = new Store();
 let mainWindow = null;
 
 function createLoginWindow() {
@@ -16,6 +19,14 @@ function createLoginWindow() {
 
   loginWindow.setMenu(null)
   loginWindow.loadFile('login.html')
+
+  // 发送上次保存的 IP 到登录窗口
+  loginWindow.webContents.on('did-finish-load', () => {
+    const savedIp = store.get('lastIP');
+    if (savedIp) {
+      loginWindow.webContents.send('load-saved-ip', savedIp);
+    }
+  });
 }
 
 function createMainWindow(ip) {
@@ -90,8 +101,10 @@ app.on('window-all-closed', function () {
   process.exit(0);
 })
 
-// 处理IP输入
+// 修改 IP 输入处理
 ipcMain.on('connect-to-ip', (event, ip) => {
+  // 保存 IP 到 store
+  store.set('lastIP', ip);
   createMainWindow(ip);
   // 关闭登录窗口
   BrowserWindow.getAllWindows().forEach(window => {
