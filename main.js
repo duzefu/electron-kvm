@@ -56,22 +56,6 @@ function createMainWindow(ip) {
     callback(0);
   });
 
-  mainWindow.on('enter-full-screen', () => {
-    mainWindow.webContents.executeJavaScript(`
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          document.webkitExitFullscreen();
-        }
-      });
-    `);
-  });
-
-  globalShortcut.register('Escape', () => {
-    if (mainWindow && mainWindow.isFullScreen()) {
-      mainWindow.setFullScreen(false);
-    }
-  });
-
   mainWindow.loadURL(`https://${ip}/kvm/`)
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
@@ -113,7 +97,3 @@ ipcMain.on('connect-to-ip', (event, ip) => {
     }
   });
 })
-
-app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
-});
