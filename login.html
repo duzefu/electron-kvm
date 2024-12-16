@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>输入IP地址</title>
+    <title>登录</title>
     <style>
         body {
             display: flex;
@@ -17,11 +17,32 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
         }
         input {
             padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
             margin: 10px 0;
-            width: 200px;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
         }
         button {
             padding: 8px 15px;
@@ -30,6 +51,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            width: 100%;
         }
         button:hover {
             background-color: #45a049;
@@ -38,25 +60,45 @@
 </head>
 <body>
     <div class="container">
-        <h3>请输入服务器IP地址</h3>
-        <input type="text" id="ipInput" placeholder="例如: 192.168.1.1" onkeypress="handleKeyPress(event)">
-        <button onclick="connect()">连接</button>
+        <h3>登录</h3>
+        <div class="form-group">
+            <label>服务器IP地址</label>
+            <input type="text" id="ipInput" placeholder="例如: 192.168.1.1">
+        </div>
+        <div class="form-group">
+            <label>用户名</label>
+            <input type="text" id="usernameInput" placeholder="请输入用户名">
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" id="passwordInput" placeholder="请输入密码">
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">记住我</label>
+        </div>
+        <button onclick="connect()">登录</button>
     </div>
     <script>
         function connect() {
             const ip = document.getElementById('ipInput').value;
-            window.electronAPI.connectToIP(ip);
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            window.electronAPI.connectToIP(ip, username, password, rememberMe);
         }
 
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                connect();
+        // 监听保存的登录信息并填充到输入框
+        window.electronAPI.onLoadSavedCredentials((event, credentials) => {
+            if (credentials.ip) {
+                document.getElementById('ipInput').value = credentials.ip;
             }
-        }
-
-        // 监听保存的 IP 并填充到输入框
-        window.electronAPI.onLoadSavedIP((event, savedIp) => {
-            document.getElementById('ipInput').value = savedIp;
+            if (credentials.username) {
+                document.getElementById('usernameInput').value = credentials.username;
+                document.getElementById('passwordInput').value = credentials.password;
+                document.getElementById('rememberMe').checked = true;
+            }
         });
     </script>
 </body>
