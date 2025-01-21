@@ -74,7 +74,7 @@ function createMainWindow(ip, username, password) {
     callback(0);
   });
 
-  mainWindow.loadURL(`https://${ip}/kvm/`)
+  mainWindow.loadURL(`https://${ip}/`)
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
     console.log('页面加载失败:', errorCode, errorDescription);
