@@ -61,7 +61,7 @@ function createMainWindow(ip, username, password) {
   })
 
   mainWindow.setMenu(null)
-
+  
   mainWindow.on('close', () => {
     mainWindow.destroy()
   })
@@ -85,23 +85,37 @@ function createMainWindow(ip, username, password) {
     
     // 检查是否在登录页面
     const checkAndLogin = `
-      if (window.location.pathname.includes('/login')) {
+      if (window.location.pathname.includes('/login') || window.location.hash.includes('#')) {
         // 等待一下确保表单元素已加载
         setTimeout(() => {
-          // 使用正确的ID选择器查找表单元素
-          const usernameInput = document.querySelector('#user-input');
-          const passwordInput = document.querySelector('#passwd-input');
-          const loginButton = document.querySelector('#login-button');
+          let usernameInput, passwordInput, loginButton;
           
-          if (usernameInput && passwordInput && loginButton) {
+          // 尝试第一种UI的选择器
+          usernameInput = document.querySelector('#user-input');
+          passwordInput = document.querySelector('#passwd-input');
+          loginButton = document.querySelector('#login-button');
+          
+          // 如果没找到，尝试第二种UI的选择器
+          if (!passwordInput || !loginButton) {
+            // 使用XPath选择器
+            const getElementByXPath = (xpath) => {
+              return document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+            };
+            
+            passwordInput = getElementByXPath('//*[@id="form_item_passwd"]');
+            loginButton = getElementByXPath('/html/body/div/div/div/div/div/div/div/div/div/div/div/button');
+          }
+          
+          if (passwordInput && loginButton) {
             console.log('找到登录表单元素');
             
-            // 填充用户名和密码
-            usernameInput.value = ${JSON.stringify(username)};
-            passwordInput.value = ${JSON.stringify(password)};
+            // 填充凭据
+            if (usernameInput) {
+              usernameInput.value = ${JSON.stringify(username)};
+              usernameInput.dispatchEvent(new Event('input', { bubbles: true }));
+            }
             
-            // 触发输入事件以确保任何监听器都能捕获到变化
-            usernameInput.dispatchEvent(new Event('input', { bubbles: true }));
+            passwordInput.value = ${JSON.stringify(password)};
             passwordInput.dispatchEvent(new Event('input', { bubbles: true }));
             
             // 等待一小段时间确保值已经被正确设置
@@ -118,12 +132,12 @@ function createMainWindow(ip, username, password) {
           }
         }, 1000);
       } else {
-        console.log('不在登录页面:', window.location.pathname);
+        console.log('不在登录页面:', window.location.pathname, window.location.hash);
       }
     `;
     
-    // 只有在提供了用户名和密码的情况下才执行自动登录
-    if (username && password) {
+    // 只有在提供了密码的情况下才执行自动登录
+    if (password) {
       mainWindow.webContents.executeJavaScript(checkAndLogin);
     }
   });
