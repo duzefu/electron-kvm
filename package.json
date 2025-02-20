@@ -1,6 +1,6 @@
 {
     "name": "kvm-electron-app",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "KVM Viewer Electron App",
     "main": "main.js",
     "scripts": {
