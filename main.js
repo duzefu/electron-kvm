@@ -164,6 +164,14 @@ app.on('window-all-closed', function () {
   process.exit(0);
 })
 
+// 添加关闭窗口的事件处理
+ipcMain.on('close-window', (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (win) {
+    win.close();
+  }
+});
+
 // 修改 IP 输入处理
 ipcMain.on('connect-to-ip', (event, ip, username, password, rememberMe) => {
   // 保存凭据到 store
