@@ -10,51 +10,74 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: transparent;
         }
         .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             width: 300px;
+            backdrop-filter: blur(10px);
+            -webkit-app-region: drag;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            -webkit-app-region: no-drag;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #333;
+            font-weight: 500;
         }
         input {
-            padding: 8px;
+            padding: 12px;
             margin: 5px 0;
             width: 100%;
             box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
         }
         .checkbox-group {
             display: flex;
             align-items: center;
-            margin: 10px 0;
+            margin: 15px 0;
+            -webkit-app-region: no-drag;
         }
         .checkbox-group input[type="checkbox"] {
             width: auto;
             margin-right: 8px;
         }
         button {
-            padding: 8px 15px;
+            padding: 12px 15px;
             background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            -webkit-app-region: no-drag;
         }
         button:hover {
             background-color: #45a049;
+            transform: translateY(-1px);
+        }
+        h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
         }
     </style>
 </head>

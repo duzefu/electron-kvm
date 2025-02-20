@@ -23,6 +23,8 @@ function createLoginWindow() {
   const loginWindow = new BrowserWindow({
     width: 400,
     height: 500,
+    frame: false,
+    transparent: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -51,6 +53,7 @@ function createMainWindow(ip, username, password) {
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
+    frame: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
