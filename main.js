@@ -151,6 +151,12 @@ app.commandLine.appendSwitch('allow-insecure-localhost')
 // for webrtc reduce latency
 app.commandLine.appendSwitch('disable-gpu-vsync')
 app.commandLine.appendSwitch('enable-zero-copy')
+app.commandLine.appendSwitch('webrtc-max-cpu-consumption-percentage', '100')
+app.commandLine.appendSwitch('webrtc-cpu-overuse-detection', 'false')
+app.commandLine.appendSwitch('force-fieldtrials', 'WebRTC-Audio-MinimizeResamplingOnMobile/Enabled/')
+app.commandLine.appendSwitch('webrtc-use-min-cpu', 'false')
+app.commandLine.appendSwitch('webrtc-playout-min-delay-ms', '0')
+app.commandLine.appendSwitch('webrtc-playout-delay-hint-ms', '0')
 
 app.whenReady().then(() => {
   createLoginWindow()
