@@ -3,7 +3,7 @@
 [English](#english) | [中文](#chinese)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Star History Chart](https://api.star-history.com/svg?repos=duzefu/electron-kvm&type=Date)](https://star-history.com/#duzefu/electron-kvm&Date)
+
 
 <a name="chinese"></a>
 ## 中文
@@ -76,3 +76,7 @@ The program is located at `dist/KVM Viewer Setup 1.0.0.exe`
 > I discovered that PiKVM's latency performance in the Electron application is better than in Chrome or Firefox.
 
 > Although I don't understand why, I wrote this app for easy demonstration and testing purposes.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=duzefu/electron-kvm&type=Date)](https://www.star-history.com/#duzefu/electron-kvm&Date)
