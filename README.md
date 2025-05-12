@@ -17,11 +17,15 @@ apt install npm wine
 ```
 > wine用于在linux服务器上编译windows软件
 
+> 最新支持快捷键拦截的版本似乎只能在windows上进行编译了,请自行查找安装`nodejs`和`Visual Studio Build Tools`的方法 https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
 #### 2.安装electron
 ```bash
 npm install electron --save-dev
 npm install electron-builder --save-dev
 npm install electron-store@8.1.0
+npm install -g node-gyp
+npm install node-api
 ```
 
 #### 3.编译EXE
@@ -49,11 +53,15 @@ apt install npm wine
 ```
 > Wine is used for compiling Windows software on Linux servers
 
+> The latest version that supports shortcut key interception seems to be able to compile only on windows. Please look for the methods to install `nodejs` and` Visual Studio Build Tools` by yourself https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
 #### 2. Install electron
 ```bash
 npm install electron --save-dev
 npm install electron-builder --save-dev
 npm install electron-store@8.1.0
+npm install -g node-gyp
+npm install node-api
 ```
 
 #### 3. Build EXE
